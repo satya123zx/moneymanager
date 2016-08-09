@@ -30,8 +30,12 @@ public class CreateAccountServiceImpl implements CreateAccountService {
 
 	@Override
 	public boolean update(NewAccount newAccount) throws SQLException {
-
-		return false;
+		if(createAccountDao.update(newAccount)>=1){
+			return true;
+		}else{
+			return false;
+		}
+		
 	}
 
 	@Override
@@ -66,13 +70,13 @@ public class CreateAccountServiceImpl implements CreateAccountService {
 		accountsMap.put("creditAccount", creditAccount);
 		Set<String> key = accountsMap.keySet();
 		Iterator<String> iterator = key.iterator();
-		while (iterator.hasNext()) {
+	/*	while (iterator.hasNext()) {
 			String accountType = iterator.next();
 
 			System.out.println("----------------------" + accountType + "------------------------");
 			System.out.println("|------------" + accountsMap.get(accountType) + "---------------|");
 			System.out.println("-----------------End of first Account Type-------------------");
-		}
+		}*/
 
 		return accountsMap;
 	}
