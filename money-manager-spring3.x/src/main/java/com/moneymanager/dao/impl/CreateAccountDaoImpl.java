@@ -37,10 +37,32 @@ public class CreateAccountDaoImpl implements CreateAccountDao {
 	}
 
 	@Override
-	public boolean update(NewAccount newAccount) {
+	public int update(NewAccount newAccount) {
 		//String sql = ""
+	/*	UPDATE `moneymanager`.`mm_user_accounts` 
+		SET `mm_user_account_name`='icic',
+		 `mm_user_account_number`='4566',
+		 `mm_user_account_balance`='25255.00'
+		 WHERE `mm_account_id`='9';*/
+		String sql = "UPDATE mm_user_accounts SET "
+				+ "mm_user_account_name = ?,"
+				+ "mm_user_account_number = ?,"
+				+ "mm_user_account_balance = ?,"
+				+ "mm_user_account_type = ?,"
+				+ "mm_user_account_limit = ? "
+				+ "Where mm_account_id = ?";
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		System.out.println("[CreateAccountDaoImp][Accountlist] New account save status : " + sql);
+		return jdbcTemplate.update(sql, new Object[]{
+				newAccount.getAccountName(),
+				newAccount.getAccountNo(),
+				newAccount.getAccountBalance(),
+				newAccount.getAccountType(),
+				newAccount.getAccountCreditLimit(),
+				newAccount.getAccountID()		
+		});
 		
-		return false;
+		
 	}
 
 	@Override

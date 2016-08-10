@@ -8,7 +8,7 @@ public interface CreateAccountDao {
 	//insert value in the DB
 	int save(NewAccount newAccount) throws SQLException;
 	//Update value in the DB to be implemented 
-	boolean update(NewAccount newAccount) throws SQLException;
+	int update(NewAccount newAccount) throws SQLException;
 	//Retrive data from DB
 	List<NewAccount> Accountlist(int UserID) throws SQLException;
 
