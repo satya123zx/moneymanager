@@ -13,4 +13,6 @@ public interface CreateAccountService {
 	boolean update(NewAccount newAccount) throws SQLException;
 
 	Map<String, List<NewAccount>> Accountlist(int UserID) throws SQLException;
+	
+	int DeleteAccount(String accountID) throws SQLException;
 }

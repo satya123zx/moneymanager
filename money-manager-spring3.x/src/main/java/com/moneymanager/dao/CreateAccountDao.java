@@ -11,5 +11,6 @@ public interface CreateAccountDao {
 	int update(NewAccount newAccount) throws SQLException;
 	//Retrive data from DB
 	List<NewAccount> Accountlist(int UserID) throws SQLException;
-
+	//Delete Account data
+	int DeleteAccount(String accountID) throws SQLException;
 }

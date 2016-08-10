@@ -233,6 +233,19 @@ input.edittableInputText  {
 										});
 
 					});
+	function LoadAjax(accountID){
+		$.ajax({
+			type	:	"POST",
+			url 	:	"deleteAccount",
+			data	:	{
+				accountID	:	accountID
+					},
+			success	:	function(response){
+				    window.location.reload();
+			}
+			
+		});
+		}
 </script>
 </head>
 
@@ -471,10 +484,14 @@ input.edittableInputText  {
 					<div class="row top_tiles">
 					
 						<c:forEach items="${accounts.savingsAccount}" var="account"
-							varStatus="status">
+							varStatus="savingsAccountstatus">
 							<div
 								class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 								<div class="tile-stats">
+									<div class="btn-group">
+									<i class="btn dropdown-toggle fa fa-wrench" data-toggle="modal" role="button" title="Edit" data-target="#savingsAccountdivIDNo${savingsAccountstatus.index}"></i>
+							
+								</div>
 									<div class="icon">
 										<img src="images/sbi.png" width="50px" height="50px" />
 									</div>
@@ -487,6 +504,137 @@ input.edittableInputText  {
 									</p>
 								</div>
 							</div>
+							<!-- Fade in and Fade out View  -->
+								<div class="modal fade bs-example-modal-lg" id="savingsAccountdivIDNo${savingsAccountstatus.index}" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+										
+												<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span></button>
+												<h4 class="modal-title" id="myModalLabel">EDIT ACCOUNT</h4>
+												</div>
+													<form:form cssClass="form-horizontal form-label-left" action="updateAccount" method="post" modelAttribute="updateAccountDetails"
+															   name="NewAccountValidation" onsubmit="return validateForm()">
+												<div class="modal-body">
+												
+												<div class="x_panel">
+							<div class="x_content">
+								<br/>
+							
+
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountName">Account Name 
+										</form:label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+										<form:input path="accountName" 
+												cssClass="form-control col-md-7 col-xs-12" value ="${account.accountName}"/>
+								
+											<span class="required" id="accountNameValid"></span>
+										</div>
+									</div>
+									
+									<form:hidden path="accountID" value="${account.accountID}"/>
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountNo">Account No 
+										</form:label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<form:input path="accountNo"
+												cssClass="form-control col-md-7 col-xs-12" value  ="${account.accountNo}" />
+											<span class="required" id="accountNoValid"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountNo">Account Type 
+										</form:label>
+										
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<div id="accountType" class="btn-group" data-toggle="buttons">
+												<form:label cssClass="btn btn-default"
+													data-toggle-class="btn-primary"
+													data-toggle-passive-class="btn-default" path="accountType">
+													<form:radiobutton path="accountType" cssClass="accType"
+														value="Loans" />&nbsp;Loan &nbsp;
+													</form:label>
+												<form:label cssClass="btn btn-default"
+													data-toggle-class="btn-primary"
+													data-toggle-passive-class="btn-default" path="accountType">
+													<form:radiobutton path="accountType" cssClass="accType"
+														value="Accounts" />&nbsp;Savings &nbsp;
+													</form:label>
+												<form:label cssClass="btn btn-default"
+													data-toggle-class="btn-primary"
+													data-toggle-passive-class="btn-default" path="accountType">
+													<form:radiobutton path="accountType" cssClass="accType"
+														value="Cards" id="accountTypeCredit"/>&nbsp;Credit &nbsp;
+													</form:label>
+												<br> <br>
+												<span class="required" id="accountTypeValid"></span>
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountBalance">Account Balance
+										</form:label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<form:input path="accountBalance"
+												class="form-control col-md-7 col-xs-12" value  = "${account.accountBalance}" />
+									
+											<span class="required" id="accountBalanceValid"></span>
+										</div>
+									</div>
+
+									<div id="hideCreditLimitFieldDiv">
+										<div class="form-group">
+											<form:label
+												cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+												path="accountCreditLimit">Credit Limit
+						
+											</form:label>
+											<div class="col-md-6 col-sm-6 col-xs-12">
+												<form:input path="accountCreditLimit"
+													class="form-control col-md-7 col-xs-12" value  = "${account.accountCreditLimit}" />
+												
+												<span class="required" id="accountCreditLimitValid"></span>
+											</div>
+										</div>
+									</div>
+									<div class="ln_solid"></div>
+									<div class="form-group">
+										<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+											<!-- <button type="button" onclick="location.href='/accountsviewall" class="btn btn-primary">Cancel</button> -->
+										</div>
+									</div>
+
+								
+							
+							</div>
+							
+						</div>
+						<!-- MY form ends here -->
+												
+												
+												</div>
+												<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary">Save changes</button>
+												<button type="button" onclick="LoadAjax(${account.accountID})" class="btn btn-danger" data-dismiss="modal">Delete</button>
+												</div>
+												</form:form>
+												
+												
+							
+										</div>
+									</div>
+								</div>
 						</c:forEach>
 					</div>
 
@@ -502,11 +650,11 @@ input.edittableInputText  {
 
 					<div class="row top_tiles">
 						<c:forEach items="${accounts.creditAccount}" var="account"
-							varStatus="status">
+							varStatus="creditAccountstatus">
 							<div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12" >
 								<div class="tile-stats">
 								<div class="btn-group">
-									<i class="btn dropdown-toggle fa fa-wrench" data-toggle="modal" role="button" title="Edit" data-target="#divIDNo${status.index}" onclick="disableTxt()"></i>
+									<i class="btn dropdown-toggle fa fa-wrench" data-toggle="modal" role="button" title="Edit" data-target="#creditAccountdivIDNo${creditAccountstatus.index}"></i>
 							
 								</div>
 								
@@ -528,7 +676,7 @@ input.edittableInputText  {
 							</div>
 							
 							<!-- Fade in and Fade out View  -->
-								<div class="modal fade bs-example-modal-lg" id="divIDNo${status.index}" tabindex="-1" role="dialog" aria-hidden="true">
+								<div class="modal fade bs-example-modal-lg" id="creditAccountdivIDNo${creditAccountstatus.index}" tabindex="-1" role="dialog" aria-hidden="true">
 									<div class="modal-dialog modal-lg">
 										<div class="modal-content">
 										
@@ -649,6 +797,7 @@ input.edittableInputText  {
 												<div class="modal-footer">
 												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
 												<button type="submit" class="btn btn-primary">Save changes</button>
+												<button type="button" onclick="LoadAjax(${account.accountID})" class="btn btn-danger" data-dismiss="modal">Delete</button>
 												</div>
 												</form:form>
 												
@@ -673,10 +822,14 @@ input.edittableInputText  {
 
 					<div class="row top_tiles">
 						<c:forEach items="${accounts.loanAccount}" var="account"
-							varStatus="status">
+							varStatus="loanAccountstatus">
 							<div
 								class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12">
 								<div class="tile-stats">
+								<div class="btn-group">
+									<i class="btn dropdown-toggle fa fa-wrench" data-toggle="modal" role="button" title="Edit" data-target="#loanAccountdivIDNo${loanAccountstatus.index}"></i>
+							
+								</div>
 									<div class="icon">
 										<img src="images/sbi.png" width="50px" height="50px" />
 									</div>
@@ -687,7 +840,137 @@ input.edittableInputText  {
 									<p>Amount:- <i class="fa fa-inr"></i> ${account.accountBalance}</p>
 								</div>
 							</div>
+						<!-- Fade in and Fade out View  -->
+								<div class="modal fade bs-example-modal-lg" id="loanAccountdivIDNo${loanAccountstatus.index}" tabindex="-1" role="dialog" aria-hidden="true">
+									<div class="modal-dialog modal-lg">
+										<div class="modal-content">
+										
+												<div class="modal-header">
+												<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">x</span></button>
+												<h4 class="modal-title" id="myModalLabel">EDIT ACCOUNT</h4>
+												</div>
+													<form:form cssClass="form-horizontal form-label-left" action="updateAccount" method="post" modelAttribute="updateAccountDetails"
+															   name="NewAccountValidation" onsubmit="return validateForm()">
+												<div class="modal-body">
+												
+												<div class="x_panel">
+							<div class="x_content">
+								<br/>
 							
+
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountName">Account Name 
+										</form:label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+										<form:input path="accountName" 
+												cssClass="form-control col-md-7 col-xs-12" value ="${account.accountName}"/>
+								
+											<span class="required" id="accountNameValid"></span>
+										</div>
+									</div>
+									
+									<form:hidden path="accountID" value="${account.accountID} "/>
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountNo">Account No 
+										</form:label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<form:input path="accountNo"
+												cssClass="form-control col-md-7 col-xs-12" value  ="${account.accountNo}" />
+											<span class="required" id="accountNoValid"></span>
+										</div>
+									</div>
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountNo">Account Type 
+										</form:label>
+										
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<div id="accountType" class="btn-group" data-toggle="buttons">
+												<form:label cssClass="btn btn-default"
+													data-toggle-class="btn-primary"
+													data-toggle-passive-class="btn-default" path="accountType">
+													<form:radiobutton path="accountType" cssClass="accType"
+														value="Loans" />&nbsp;Loan &nbsp;
+													</form:label>
+												<form:label cssClass="btn btn-default"
+													data-toggle-class="btn-primary"
+													data-toggle-passive-class="btn-default" path="accountType">
+													<form:radiobutton path="accountType" cssClass="accType"
+														value="Accounts" />&nbsp;Savings &nbsp;
+													</form:label>
+												<form:label cssClass="btn btn-default"
+													data-toggle-class="btn-primary"
+													data-toggle-passive-class="btn-default" path="accountType">
+													<form:radiobutton path="accountType" cssClass="accType"
+														value="Cards" id="accountTypeCredit"/>&nbsp;Credit &nbsp;
+													</form:label>
+												<br> <br>
+												<span class="required" id="accountTypeValid"></span>
+											</div>
+										</div>
+
+									</div>
+									<div class="form-group">
+										<form:label
+											cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+											path="accountBalance">Account Balance
+										</form:label>
+										<div class="col-md-6 col-sm-6 col-xs-12">
+											<form:input path="accountBalance"
+												class="form-control col-md-7 col-xs-12" value  = "${account.accountBalance}" />
+									
+											<span class="required" id="accountBalanceValid"></span>
+										</div>
+									</div>
+
+									<div id="hideCreditLimitFieldDiv">
+										<div class="form-group">
+											<form:label
+												cssClass="control-label col-md-3 col-sm-3 col-xs-12"
+												path="accountCreditLimit">Credit Limit
+						
+											</form:label>
+											<div class="col-md-6 col-sm-6 col-xs-12">
+												<form:input path="accountCreditLimit"
+													class="form-control col-md-7 col-xs-12" value  = "${account.accountCreditLimit}" />
+												
+												<span class="required" id="accountCreditLimitValid"></span>
+											</div>
+										</div>
+									</div>
+									<div class="ln_solid"></div>
+									<div class="form-group">
+										<div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
+											<!-- <button type="button" onclick="location.href='/accountsviewall" class="btn btn-primary">Cancel</button> -->
+										</div>
+									</div>
+
+								
+							
+							</div>
+							
+						</div>
+						<!-- MY form ends here -->
+												
+												
+												</div>
+												<div class="modal-footer">
+												<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+												<button type="submit" class="btn btn-primary">Save changes</button>
+												<button type="button" onclick="LoadAjax(${account.accountID})" class="btn btn-danger" data-dismiss="modal">Delete</button>
+												</div>
+												</form:form>
+												
+												
+							
+										</div>
+									</div>
+								</div>	
 
 							
 						</c:forEach>

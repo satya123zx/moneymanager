@@ -76,4 +76,11 @@ public class CreateAccountDaoImpl implements CreateAccountDao {
 
 	}
 
+	@Override
+	public int DeleteAccount(String accountID) throws SQLException {
+		String sql ="DELETE FROM mm_user_accounts WHERE mm_account_id = "+accountID; 
+		JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
+		return jdbcTemplate.update(sql);
+	}
+
 }

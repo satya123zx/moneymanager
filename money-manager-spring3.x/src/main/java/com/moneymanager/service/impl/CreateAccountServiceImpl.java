@@ -81,4 +81,10 @@ public class CreateAccountServiceImpl implements CreateAccountService {
 		return accountsMap;
 	}
 
+	@Override
+	public int DeleteAccount(String accountID) throws SQLException {
+		System.out.println("[CreateAccountDaoImp][DeleteAccount]  account Deleted : " + accountID);
+		return createAccountDao.DeleteAccount(accountID);
+	}
+
 }
